@@ -25,11 +25,8 @@ int main()
 	std::vector <Platform> level;
 
 	playertxt.loadFromFile("rsrc/images/maindefualt.png");
-	platformtxt.loadFromFile("rsrc/images/dirt1.png");
-
-	Player player(500.0f,500.0f,10,10,playertxt);
-
 	
+	platformtxt.loadFromFile("rsrc/images/dirt1.png");
 
 	int levelarray[][10] = {
 	{0,0,0,0,0,0,0,0,0,0},
@@ -42,7 +39,9 @@ int main()
 	{0,0,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,0}};
-	int sizeofArray=0;
+
+	Player player(500.0f,500.0f,10,10,playertxt);
+
 	for (int i = 0; i < 10; ++i)
 	{
 		for (int j = 0; j < 10; ++j)
@@ -51,7 +50,6 @@ int main()
 			{
 				Platform p(j*10+500,i*10+500,10,10,platformtxt);
 				level.push_back(p);
-
 			}
 		}
 	}
@@ -83,14 +81,16 @@ int main()
 		
 		player.update(up,down,right,left,level);
 		
-		view.setCenter(Vector2f(player.x+player.w,player.y+player.h));
+		view.setCenter(Vector2f(player.getPosition().x+player.size.x,player.getPosition().y+player.size.y));
+
+		window.draw(player);
 		
 		for (Platform &p: level)
 		{
 			window.draw(p);
 		}
 
-		window.draw(player);
+		
 		
 		window.display();
 

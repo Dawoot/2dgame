@@ -13,7 +13,7 @@ private:
 	float jheight;
 
 public:
-	Player(float i_x,float i_y,float i_w,float i_h,sf::Texture &playertxt);
-	void update(bool &up,bool &down,bool &right,bool &left,std::vector <Platform> level);
-	void collide(float xvel,float yvel,std::vector <Platform> level);
+	Player(float i_x,float i_y,float i_w,float i_h,sf::Texture & t);
+	void update(bool &up,bool &down,bool &right,bool &left,std::vector <Platform> &level);
+	void collide(float xvel,float yvel,std::vector <Platform>& level);
 };

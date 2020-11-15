@@ -8,15 +8,19 @@
 extern float accelGravity;
 extern float maxGravity;
 
-Player::Player(float i_x,float i_y,float i_w,float i_h,sf::Texture &playertxt){
+Player::Player(float i_x,float i_y,float i_w,float i_h,sf::Texture&	t){
+	
+	
 	jheight = 3.5f;
 	speed = 1.0f;
 
 	size.x = i_w;
 	size.y = i_y;
+	
+	setTexture(t);
 	setPosition(i_x,i_y);
 }
-void Player::update(bool &up,bool &down,bool &right,bool &left,std::vector<Platform> level){
+void Player::update(bool &up,bool &down,bool &right,bool &left,std::vector<Platform>& level){
 
 	if (up && onGround)velocity.y = jheight*-1; 
 
@@ -26,7 +30,7 @@ void Player::update(bool &up,bool &down,bool &right,bool &left,std::vector<Platf
 		if (velocity.y>maxGravity) velocity.y=maxGravity;
 	}
 
-	if (down)velocity.y = 1.0f;
+	if (down)velocity.y = 0.5f;
 	if (right) velocity.x = 1.0f;
 	if(left) velocity.x = -1.0f;
 	if (!right && !left)velocity.x=0.0f; 
@@ -39,39 +43,39 @@ void Player::update(bool &up,bool &down,bool &right,bool &left,std::vector<Platf
 	
 	move(0, velocity.y);
 	
-	collide(0,velocity.y*speed,level);
+	collide(0,velocity.y,level);
 
-	setPosition(x,y);
+	setPosition(getPosition().x,getPosition().y);
 }
-void Player::collide(float xvel,float yvel,std::vector<Platform> level){
+void Player::collide(float xvel,float yvel,std::vector<Platform>& level){
 	for (Platform &p:level)
 	{
 		if (getPosition().x < p.hitbox.right &&
-			getPosition().x+w > p.hitbox.left &&
+			getPosition().x+size.x > p.hitbox.left &&
 			getPosition().y < p.hitbox.bottom &&
-			getPosition().y+h > p.hitbox.top)
+			getPosition().y+size.y > p.hitbox.top)
 		collision = true;	
 		else collision = false;
 		if (collision)
 		{
 			if (xvel>0)
 			{
-				setPosition(level[i].hitbox.left-w;,getPosition().y);
+				setPosition(p.hitbox.left-size.x,getPosition().y);
 				velocity.x = 0.f;
 			}
 			if (xvel<0)
 			{
-				setPosition(level[i].hitbox.right,getPosition().y);
+				setPosition(p.hitbox.right,getPosition().y);
 				velocity.x = 0.f;
 			}
 			if (yvel<0)
 			{
-				setPosition(getPosition().x,level[i].hitbox.bottom);
+				setPosition(getPosition().x,p.hitbox.bottom);
 				velocity.y = 0.f;
 			}
 			if (yvel>0)
 			{
-				setPosition(getPosition().x,level[i].hitbox.top-h);
+				setPosition(getPosition().x, p.hitbox.top-size.y);
 				velocity.y = 0.f;
 				onGround = true;	
 			}

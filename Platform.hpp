@@ -7,5 +7,5 @@ class Platform : public Entity
 private:
 	
 public:
-	void init(float i_x,float i_y,float i_w,float i_h);
+	Platform(float i_x,float i_y,float i_w,float i_h, sf::Texture &platformtxt);
 };
